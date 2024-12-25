@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "181646000819",
+    "firebase_url": "https://labln-fd4bb-default-rtdb.firebaseio.com",
+    "project_id": "labln-fd4bb",
+    "storage_bucket": "labln-fd4bb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181646000819:android:1bbaa6c451570e8ac066c6",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8DI-ty3dkIEnTZEx1EqlU4XsVUP80x-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
