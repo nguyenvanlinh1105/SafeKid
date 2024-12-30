@@ -94,26 +94,10 @@
             app:srcCompat="@drawable/icon_back" />
 
         <TextView
-            android:id="@+id/btnQuenMatKhau"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="5dp"
-            android:text="Quên mật khẩu?"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/edtPassword_login"
-            app:layout_constraintTop_toBottomOf="@+id/edtPassword_login" />
-
-        <TextView
             android:id="@+id/btn_Login_TK"
             android:layout_width="330dp"
             android:layout_height="60dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/btn_primary_conner"
             android:gravity="center"
             android:paddingLeft="10dp"
@@ -126,7 +110,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnQuenMatKhau" />
+            app:layout_constraintTop_toBottomOf="@+id/cb_nho_mat_khau_login" />
 
         <LinearLayout
             android:id="@+id/linearLayout"

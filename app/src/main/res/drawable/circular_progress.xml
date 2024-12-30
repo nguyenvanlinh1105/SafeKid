@@ -1,0 +1,26 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Vòng tròn nền -->
+    <item android:id="@android:id/background">
+        <shape android:shape="oval">
+            <size android:width="150dp" android:height="150dp" />
+            <solid android:color="#00FF00" /> <!-- Màu nền nhạt -->
+        </shape>
+    </item>
+
+    <!-- Vòng tròn hiển thị tiến độ -->
+    <item android:id="@android:id/progress">
+        <rotate
+            android:fromDegrees="270"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape android:shape="ring"
+                android:innerRadiusRatio="3"
+                android:thicknessRatio="10"
+                android:useLevel="true">
+                <solid android:color="#00FF00" /> <!-- Màu mặc định -->
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

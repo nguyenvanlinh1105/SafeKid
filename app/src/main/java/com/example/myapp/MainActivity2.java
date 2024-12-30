@@ -24,16 +24,14 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Khởi tạo fragment mặc định
-        ReplaceFragment(new frag_featured());
+        ReplaceFragment(new frag_dashboard());
 
         // Xử lý sự kiện cho BottomNavigationView
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.navigation_home) {
-                ReplaceFragment(new frag_featured());
-            } else if (item.getItemId() == R.id.navigation_dashboard) {
-                ReplaceFragment(new frag_feed());
-            } else if (item.getItemId() == R.id.navigation_notifications) {
-                ReplaceFragment(new frag_setttings());
+            if (item.getItemId() == R.id.navigation_gps) {
+                ReplaceFragment(new frag_gps());
+            } else if (item.getItemId() == R.id.navigation_home) {
+                ReplaceFragment(new frag_dashboard());
 
             }else if(item.getItemId()==R.id.navigation_profile){
                 ReplaceFragment(new Profile());

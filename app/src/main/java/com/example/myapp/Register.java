@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,17 +16,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapp.First_page;
+import com.example.myapp.R;
+import com.example.myapp.Util.FunctionUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import  com.example.myapp.login;
 
 public class Register extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     private FirebaseAuth mAuth;
     private ImageView btn_back;
-    private TextView edt_Password_signin, edt_Mail_signin, edt_Confirm_Password_signin;
+    private TextView edt_Mail_signin;
+    private EditText edt_Password_signin, edt_Confirm_Password_signin;
+    private FunctionUtils functionUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +44,7 @@ public class Register extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        functionUtils = new FunctionUtils();
         sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
         edt_Mail_signin = findViewById(R.id.edt_Mail_signin);
         edt_Password_signin = findViewById(R.id.edt_Password_signin);
@@ -61,6 +69,8 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        functionUtils.setupPasswordVisibilityToggle(edt_Password_signin);
+        functionUtils.setupPasswordVisibilityToggle(edt_Confirm_Password_signin);
 
         TextView btnDangKi = findViewById(R.id.btn_DangKi_TK);
         btnDangKi.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +119,8 @@ public class Register extends AppCompatActivity {
                         Toast.makeText(Register.this,
                                 "Đăng ký thành công! Email: " + user.getEmail(),
                                 Toast.LENGTH_SHORT).show();
+                        Intent login = new Intent(Register.this, login.class);
+                        startActivity(login);
                     } else {
                         Toast.makeText(Register.this,
                                 "Đăng ký thất bại: " + task.getException().getMessage(),

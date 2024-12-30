@@ -11,6 +11,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapp.R;
+import com.example.myapp.login;
+import com.example.myapp.Register;
 public class First_page extends AppCompatActivity {
 
     private TextView btnDangNhap,btnDangKi;

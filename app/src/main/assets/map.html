@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenLayers Map</title>
+    <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/dist/ol.css">
+    <style>
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+        #location-info {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+        .marker {
+            width: 32px;
+            height: 32px;
+            background-image: url('location.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            transition: width 0.2s ease, height 0.2s ease;
+        }
+        .marker:hover {
+            transform: scale(1.2); /* Phóng to nhẹ khi hover */
+            transition: transform 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+<div id="location-info">Đang tải thông tin...</div>
+<div id="map"></div>
+<script>
+    // Tạo bản đồ OpenLayers
+    let mapView = new ol.View({
+        center: ol.proj.fromLonLat([108.213356,16.076868]),
+        zoom: 18, 
+    });
+
+    const map = new ol.Map({
+        target: 'map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM(),
+            }),
+        ],
+        view: mapView,
+    });
+
+    // Tạo overlay cho dấu vị trí (icon)
+    const positionElement = document.createElement('div');
+    positionElement.className = 'marker';
+
+    const positionOverlay = new ol.Overlay({
+        element: positionElement,
+        positioning: 'center-center', 
+    });
+
+    map.addOverlay(positionOverlay);
+
+    // Hàm cập nhật thông tin địa chỉ từ tọa độ
+   function GetToaDoChiTiet(longitude, latitude) {
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.address) {
+                const address = data.address;
+                const houseNumber = address.house_number || "";
+                const road = address.road || "Đường không xác định";
+                const suburb = address.suburb || "";
+                const city = address.city || address.town || address.village || "Thành phố không xác định";
+                const state = address.state || "";
+                const country = address.country || "Quốc gia không xác định";
+
+                // Địa chỉ cập nhật
+                const fullAddress = `Địa chỉ: ${houseNumber} ${road}, ${suburb}, ${city}, ${country}`;
+
+                // Hiển thị thông tin địa chỉ lên top center của map
+                const locationInfo = document.getElementById('location-info');
+                if (locationInfo) {
+                    locationInfo.textContent = fullAddress;
+                }
+
+                console.log(fullAddress);
+            } else {
+                console.error("Không tìm thấy địa chỉ từ API.");
+            }
+        })
+        .catch(error => {
+            console.error("Lỗi khi lấy thông tin địa chỉ:", error);
+        });
+}
+
+
+    // cập nhật vị trí và thông tin
+    function updateMapPosition(longitude, latitude) {
+        const newCenter = ol.proj.fromLonLat([parseFloat(longitude), parseFloat(latitude)]);
+        mapView.setCenter(newCenter);
+        mapView.setZoom(18);
+        positionOverlay.setPosition(newCenter);
+
+        // Cập nhật địa chỉ từ tọa độ
+        GetToaDoChiTiet(longitude, latitude);
+    }
+
+    // Cập nhật kích thước marker theo zoom
+    function updateMarkerSize() {
+        const zoom = mapView.getZoom(); // Lấy mức zoom hiện tại
+        let size = 20 + zoom * 2; // Tính kích thước marker thay đổi theo zoom (ví dụ: mỗi zoom tăng thêm 2px)
+
+        // Cập nhật kích thước marker
+        positionElement.style.width = `${size}px`;
+        positionElement.style.height = `${size}px`;
+    }
+
+    // Lắng nghe sự kiện thay đổi zoom và cập nhật kích thước marker
+    mapView.on('change:resolution', function() {
+        updateMarkerSize(); 
+    });
+
+
+</script>
+</body>
+</html>
