@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenLayers Map</title>
+    <title>OpenLayers Map with Pulsing Marker</title>
     <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/dist/ol.css">
     <style>
@@ -17,12 +17,14 @@
             left: 50%;
             transform: translateX(-50%);
             background-color: rgba(255, 255, 255, 0.9);
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 8px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
             font-size: 16px;
             font-weight: bold;
             z-index: 1000;
+            max-width: 500px;
+            text-align: center;
         }
         .marker {
             width: 32px;
@@ -30,12 +32,31 @@
             background-image: url('location.png');
             background-size: contain;
             background-repeat: no-repeat;
-            cursor: pointer;
-            transition: width 0.2s ease, height 0.2s ease;
+            position: relative;
+            z-index: 10;
         }
-        .marker:hover {
-            transform: scale(1.2); /* Phóng to nhẹ khi hover */
-            transition: transform 0.2s ease;
+        .marker::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 150, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 1.5s infinite ease-out;
+            z-index: -1;
+        }
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -43,10 +64,11 @@
 <div id="location-info">Đang tải thông tin...</div>
 <div id="map"></div>
 <script>
+    let isZooming = false;
     // Tạo bản đồ OpenLayers
-    let mapView = new ol.View({
-        center: ol.proj.fromLonLat([108.213356,16.076868]),
-        zoom: 18, 
+    const mapView = new ol.View({
+        center: ol.proj.fromLonLat([108.213356, 16.076868]),
+        zoom: 18,
     });
 
     const map = new ol.Map({
@@ -59,19 +81,19 @@
         view: mapView,
     });
 
-    // Tạo overlay cho dấu vị trí (icon)
+    // Tạo overlay cho marker với hiệu ứng phát sóng
     const positionElement = document.createElement('div');
     positionElement.className = 'marker';
 
     const positionOverlay = new ol.Overlay({
         element: positionElement,
-        positioning: 'center-center', 
+        positioning: 'center-center',
     });
 
     map.addOverlay(positionOverlay);
 
-    // Hàm cập nhật thông tin địa chỉ từ tọa độ
-   function GetToaDoChiTiet(longitude, latitude) {
+    // Hàm lấy thông tin địa chỉ từ tọa độ
+  function GetToaDoChiTiet(longitude, latitude) {
     const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`;
 
     fetch(url)
@@ -82,61 +104,62 @@
             return response.json();
         })
         .then(data => {
+            const locationInfo = document.getElementById('location-info');
             if (data && data.address) {
                 const address = data.address;
+                const displayname = data.display_name || "";
                 const houseNumber = address.house_number || "";
+                const amenity = address.amenity || "";
                 const road = address.road || "Đường không xác định";
                 const suburb = address.suburb || "";
                 const city = address.city || address.town || address.village || "Thành phố không xác định";
                 const state = address.state || "";
                 const country = address.country || "Quốc gia không xác định";
 
-                // Địa chỉ cập nhật
-                const fullAddress = `Địa chỉ: ${houseNumber} ${road}, ${suburb}, ${city}, ${country}`;
-
-                // Hiển thị thông tin địa chỉ lên top center của map
-                const locationInfo = document.getElementById('location-info');
-                if (locationInfo) {
-                    locationInfo.textContent = fullAddress;
-                }
-
-                console.log(fullAddress);
+                locationInfo.textContent = `Địa chỉ: ${houseNumber} ${amenity ? '(' + amenity + ')' : ''} ${road}, ${suburb}, ${city}, ${state}, ${country}`;
             } else {
-                console.error("Không tìm thấy địa chỉ từ API.");
+                locationInfo.textContent = "Không tìm thấy địa chỉ. Vui lòng thử lại.";
             }
         })
         .catch(error => {
             console.error("Lỗi khi lấy thông tin địa chỉ:", error);
+            const locationInfo = document.getElementById('location-info');
+
         });
 }
 
 
-    // cập nhật vị trí và thông tin
+    // Hàm cập nhật vị trí và thông tin
     function updateMapPosition(longitude, latitude) {
+        if (isZooming) return;
+        GetToaDoChiTiet(longitude, latitude);
         const newCenter = ol.proj.fromLonLat([parseFloat(longitude), parseFloat(latitude)]);
         mapView.setCenter(newCenter);
         mapView.setZoom(18);
         positionOverlay.setPosition(newCenter);
-
-        // Cập nhật địa chỉ từ tọa độ
-        GetToaDoChiTiet(longitude, latitude);
     }
 
-    // Cập nhật kích thước marker theo zoom
-    function updateMarkerSize() {
-        const zoom = mapView.getZoom(); // Lấy mức zoom hiện tại
-        let size = 20 + zoom * 2; // Tính kích thước marker thay đổi theo zoom (ví dụ: mỗi zoom tăng thêm 2px)
-
-        // Cập nhật kích thước marker
-        positionElement.style.width = `${size}px`;
-        positionElement.style.height = `${size}px`;
+    // Hàm debounce để tránh gọi updateMapPosition quá nhiều lần
+    function debounce(func, delay) {
+        let timeout;
+        return function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func.apply(this, arguments);
+            }, delay);
+        };
     }
 
-    // Lắng nghe sự kiện thay đổi zoom và cập nhật kích thước marker
-    mapView.on('change:resolution', function() {
-        updateMarkerSize(); 
-    });
+    // Lắng nghe sự kiện zoom
+    mapView.on('change:resolution', debounce(function () {
+        isZooming = true;
 
+        // Sau khi zoom xong (200ms trễ), đặt lại trạng thái
+        clearTimeout(mapView.zoomTimeout);
+        mapView.zoomTimeout = setTimeout(() => {
+            isZooming = false;
+        }, 200);
+    }, 200));
 
 </script>
 </body>

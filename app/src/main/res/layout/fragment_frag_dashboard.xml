@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tẽ"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/list_chat_bg">
 
     <LinearLayout
@@ -32,7 +33,7 @@
                     android:layout_width="220dp"
                     android:layout_height="220dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/circular_border" />
+                    android:background="@drawable/heart_safe" />
 
                 <!-- Hình trái tim -->
                 <ImageView
@@ -51,9 +52,9 @@
                 android:id="@+id/heartRateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:text="76"
-                android:textColor="@color/primary_color"
+                android:textColor="#43B15E"
                 android:textSize="48sp"
                 android:textStyle="bold" />
 
@@ -61,9 +62,10 @@
                 android:id="@+id/heartRateUnit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BPM"
-                android:textColor="@color/primary_color"
-                android:textSize="20sp" />
+                android:text="Nhịp tym an toàn"
+                android:textColor="#308043"
+                android:textSize="24sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
 
@@ -74,90 +76,29 @@
             android:orientation="horizontal">
 
             <!-- Card 1: Walk -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_columnWeight="1"
-                app:cardElevation="10dp"
-                android:background="@drawable/green_shadow"
-                app:cardCornerRadius="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:background="@android:color/holo_orange_light"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <!-- ImageView at top center -->
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
-                        android:src="@drawable/iconc02" />
-
-                    <RelativeLayout
-                        android:layout_width="150dp"
-                        android:layout_height="150dp">
-
-                        <!-- Circular ProgressBar -->
-                        <ProgressBar
-                            android:id="@+id/circularProgressWalk"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:indeterminate="false"
-                            android:max="100"
-                            android:progress="70"
-                            android:progressDrawable="@drawable/circular_progress" />
-
-                        <!-- Value -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/progressValueWalk"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2265"
-                                android:textColor="#000"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Steps"
-                                android:textColor="#555"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </RelativeLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
             <!-- Card 2: Sleep -->
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:layout_columnWeight="1"
-                app:cardElevation="10dp"
+                android:layout_margin="8dp"
                 android:background="@drawable/green_shadow"
-                app:cardCornerRadius="16dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="10dp">
 
                 <LinearLayout
+                    android:id="@+id/pieNhietdo"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="270dp"
                     android:background="@color/material_dynamic_secondary95"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
 
                     <!-- ImageView at top center -->
+
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -188,26 +129,29 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/progressValueSleep"
+                                android:id="@+id/progressValueNhietDo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8:50"
+                                android:text="28°C"
                                 android:textColor="#000"
-                                android:textSize="20sp"
+                                android:textSize="24sp"
                                 android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Hours"
-                                android:textColor="#555"
-                                android:textSize="16sp" />
                         </LinearLayout>
+
                     </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/textwarningNhietDo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="An toàn"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </GridLayout>
-
 
 
     </LinearLayout>
