@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/tẽ"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/list_chat_bg">
@@ -10,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
-        <!-- Phần trên: Trái tim với vòng tròn bao quanh -->
+        <!-- Phần trên: Hình trái tim và vòng tròn -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,14 +19,12 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <!-- Hình trái tim với hình tròn bao quanh -->
             <FrameLayout
                 android:layout_width="280dp"
                 android:layout_height="280dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="2dp">
+                android:layout_marginBottom="8dp">
 
-                <!-- Hình tròn bao quanh -->
                 <View
                     android:id="@+id/circularBorder"
                     android:layout_width="220dp"
@@ -35,7 +32,6 @@
                     android:layout_gravity="center"
                     android:background="@drawable/heart_safe" />
 
-                <!-- Hình trái tim -->
                 <ImageView
                     android:id="@+id/heartImage"
                     android:layout_width="100dp"
@@ -44,15 +40,10 @@
                     android:src="@drawable/heart_icon256" />
             </FrameLayout>
 
-            <!-- Số nhịp tim -->
-
-            <!-- Đơn vị nhịp tim -->
-
             <TextView
                 android:id="@+id/heartRateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:text="76"
                 android:textColor="#43B15E"
                 android:textSize="48sp"
@@ -62,96 +53,80 @@
                 android:id="@+id/heartRateUnit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nhịp tym an toàn"
+                android:text="Nhịp tim an toàn"
                 android:textColor="#308043"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-
-        <GridLayout
+        <!-- Grid Layout chứa các CardView -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:orientation="horizontal">
+            android:layout_margin="8dp"
+            android:background="@drawable/card_bg"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp">
 
-            <!-- Card 1: Walk -->
+            <LinearLayout
+                android:id="@+id/pieNhietdo"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@drawable/card_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <!-- Card 2: Sleep -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                android:background="@drawable/green_shadow"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="10dp">
+                <ImageView
 
-                <LinearLayout
-                    android:id="@+id/pieNhietdo"
-                    android:layout_width="match_parent"
-                    android:layout_height="270dp"
-                    android:background="@color/material_dynamic_secondary95"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp">
+                    android:id="@+id/icontem"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/icont" />
 
-                    <!-- ImageView at top center -->
+                <RelativeLayout
+                    android:layout_width="180dp"
+                    android:layout_height="180dp">
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
-                        android:src="@drawable/icont" />
+                    <ProgressBar
+                        android:id="@+id/circularProgressSleep"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="100"
+                        android:progressDrawable="@drawable/circular_progress" />
 
-                    <RelativeLayout
-                        android:layout_width="150dp"
-                        android:layout_height="150dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                        <!-- Circular ProgressBar -->
-                        <ProgressBar
-                            android:id="@+id/circularProgressSleep"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:indeterminate="false"
-                            android:max="100"
-                            android:progress="100"
-                            android:progressDrawable="@drawable/circular_progress" />
+                        <TextView
+                            android:id="@+id/progressValueNhietDo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="28°C"
+                            android:textColor="@color/black"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </RelativeLayout>
 
-                        <!-- Value -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/progressValueNhietDo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="28°C"
-                                android:textColor="#000"
-                                android:textSize="24sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/textwarningNhietDo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="An toàn"
-                        android:textColor="#000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </GridLayout>
+                <TextView
+                    android:id="@+id/textwarningNhietDo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="An toàn"
+                    android:textColor="@color/green"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
 
     </LinearLayout>

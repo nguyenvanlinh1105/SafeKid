@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class frag_dashboard extends Fragment {
     private DatabaseReference heartRateRef, temperatureRef;
     private boolean isAlarmOn = false;
     private View circleView;
+    private ImageView icontem;
 
     public frag_dashboard() {}
 
@@ -38,12 +40,15 @@ public class frag_dashboard extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_frag_dashboard, container, false);
 
+        // mapp view
         heartRateText = rootView.findViewById(R.id.heartRateText);
         progressValueNhietDo = rootView.findViewById(R.id.progressValueNhietDo);
         textwarningNhietDo = rootView.findViewById(R.id.textwarningNhietDo);
         pieNhietDo = rootView.findViewById(R.id.pieNhietdo);
         textwarningHeart = rootView.findViewById(R.id.heartRateUnit);
         ImageView heartView = rootView.findViewById(R.id.heartImage);
+        icontem = rootView.findViewById(R.id.icontem);
+        // kêt nối fire csdl
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         heartRateRef = database.getReference("NhipTim");
         temperatureRef = database.getReference("NhietDo");
@@ -79,17 +84,23 @@ public class frag_dashboard extends Fragment {
 
                 try {
                     int heartRate = Integer.parseInt(heartRateStr);
+
+
                     heartRateText.setText(heartRate + " bpm");
                     boolean isDangerous = heartRate < 60 || heartRate > 100;
 
                     if (isDangerous) {
                         triggerAlarm("Nhịp tim bất thường: " + heartRate + " bpm");
-                        textwarningHeart.setText("Nhịp tym ở mức nguy hiểm");
+                        textwarningHeart.setText("Nhịp tim ở mức nguy hiểm");
                         textwarningHeart.setTextColor(Color.RED);
                         heartRateText.setTextColor(Color.RED);
                         circleView.setBackgroundResource(R.drawable.circular_border);
                     } else {
                         updateAlarmState(false);
+                        textwarningHeart.setText("Nhịp tim an toàn");
+                        textwarningHeart.setTextColor(Color.GREEN);
+                        heartRateText.setTextColor(Color.GREEN);
+                        circleView.setBackgroundResource(R.drawable.heart_safe);
                     }
                 } catch (NumberFormatException e) {
                     heartRateText.setText("Dữ liệu lỗi");
@@ -111,33 +122,38 @@ public class frag_dashboard extends Fragment {
 
                 try {
                     double tempValue = Double.parseDouble(tempStr);
+                    // cần check xem nhiệt độ làm tròn là double hay int
                     progressValueNhietDo.setText(tempValue + "°C");
+                    progressValueNhietDo.setTextColor(Color.WHITE);
                     boolean isDangerous = tempValue < 20 || tempValue > 30;
-                    // set màu nguy hiểm cho nhiệt độ
+
+                    // Tạo GradientDrawable không có viền
                     GradientDrawable drawable = new GradientDrawable();
                     drawable.setCornerRadius(20);
                     drawable.setShape(GradientDrawable.RECTANGLE);
-                    drawable.setStroke(5, Color.BLACK);
-                    // drawable.setShadowLayer(10, 0, 0, Color.GRAY);
 
                     if (isDangerous) {
                         drawable.setColor(Color.RED);
                     } else {
                         drawable.setColor(Color.rgb(0, 255, 156));
                     }
+
                     pieNhietDo.setBackground(drawable);
 
                     if (isDangerous) {
                         triggerAlarm("Nhiệt độ bất thường: " + tempValue + "°C");
-
                         textwarningNhietDo.setText("Nhiệt độ ở mức nguy hiểm");
+                        textwarningNhietDo.setTextColor(Color.WHITE);
                     } else {
                         textwarningNhietDo.setText("Nhiệt độ an toàn");
+                        progressValueNhietDo.setTextColor(Color.BLACK);
+                        textwarningNhietDo.setTextColor(Color.BLACK);
                         updateAlarmState(false);
                     }
                 } catch (NumberFormatException e) {
                     progressValueNhietDo.setText("Dữ liệu lỗi");
                 }
+
             }
 
             @Override
