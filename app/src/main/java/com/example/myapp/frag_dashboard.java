@@ -98,8 +98,8 @@ public class frag_dashboard extends Fragment {
                     } else {
                         updateAlarmState(false);
                         textwarningHeart.setText("Nhịp tim an toàn");
-                        textwarningHeart.setTextColor(Color.GREEN);
-                        heartRateText.setTextColor(Color.GREEN);
+                        textwarningHeart.setTextColor(Color.rgb(48, 104, 61));
+                        heartRateText.setTextColor(Color.rgb(48, 104, 61));
                         circleView.setBackgroundResource(R.drawable.heart_safe);
                     }
                 } catch (NumberFormatException e) {

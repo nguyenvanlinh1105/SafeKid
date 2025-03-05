@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="76"
-                android:textColor="#43B15E"
+                android:textColor="#2AB14B"
                 android:textSize="48sp"
                 android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nhịp tim an toàn"
-                android:textColor="#308043"
+                android:textColor="#30683D"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -79,7 +79,6 @@
                 android:padding="10dp">
 
                 <ImageView
-
                     android:id="@+id/icontem"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -122,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="An toàn"
-                    android:textColor="@color/green"
+                    android:textColor="#288A2C"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
