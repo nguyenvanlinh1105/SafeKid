@@ -6,6 +6,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -73,6 +74,9 @@ public class MainActivity2 extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.RECORD_AUDIO}, 1);
         }
+
+
+
 
 
         // Kiểm tra và yêu cầu quyền vẽ lên ứng dụng khác nếu chưa cấp

@@ -60,7 +60,7 @@ public class frag_dashboard extends Fragment {
         scaleAnimator.setDuration(1000);
         scaleAnimator.setRepeatCount(ObjectAnimator.INFINITE);
         scaleAnimator.start();
-         circleView = rootView.findViewById(R.id.circularBorder);
+        circleView = rootView.findViewById(R.id.circularBorder);
         ObjectAnimator circleAnimator = ObjectAnimator.ofPropertyValuesHolder(
                 circleView,
                 PropertyValuesHolder.ofFloat("scaleX", 1f, 1.3f, 1f),
@@ -79,11 +79,11 @@ public class frag_dashboard extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) return;
-                String heartRateStr = snapshot.getValue(String.class);
+                Double heartRateStr = snapshot.getValue(Double.class);
                 if (heartRateStr == null) return;
 
                 try {
-                    int heartRate = Integer.parseInt(heartRateStr);
+                    int heartRate = heartRateStr.intValue();
 
 
                     heartRateText.setText(heartRate + " bpm");
@@ -117,11 +117,11 @@ public class frag_dashboard extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) return;
-                String tempStr = snapshot.getValue(String.class);
+                Double tempStr = snapshot.getValue(Double.class);
                 if (tempStr == null) return;
 
                 try {
-                    double tempValue = Double.parseDouble(tempStr);
+                    double tempValue = tempStr.intValue();
                     // cần check xem nhiệt độ làm tròn là double hay int
                     progressValueNhietDo.setText(tempValue + "°C");
                     progressValueNhietDo.setTextColor(Color.WHITE);
@@ -148,7 +148,7 @@ public class frag_dashboard extends Fragment {
                         textwarningNhietDo.setText("Nhiệt độ an toàn");
                         progressValueNhietDo.setTextColor(Color.BLACK);
                         textwarningNhietDo.setTextColor(Color.BLACK);
-                        updateAlarmState(false);
+                       // updateAlarmState(false);
                     }
                 } catch (NumberFormatException e) {
                     progressValueNhietDo.setText("Dữ liệu lỗi");
@@ -168,7 +168,7 @@ public class frag_dashboard extends Fragment {
     }
 
     private void triggerAlarm(String message) {
-       // showAlert("Cảnh báo!", message);
+        // showAlert("Cảnh báo!", message);
         updateAlarmState(true);
     }
 

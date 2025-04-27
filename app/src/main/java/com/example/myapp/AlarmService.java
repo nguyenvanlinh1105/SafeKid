@@ -60,7 +60,7 @@ public class AlarmService extends Service {
                     0);
         }
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.alarm_sound));
+            mediaPlayer = MediaPlayer.create(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.diadang));
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
         }

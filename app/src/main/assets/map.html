@@ -1,166 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenLayers Map with Pulsing Marker</title>
-    <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/dist/ol.css">
+    <title>Simple Map with OpenCage Geocoding</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLiQTQyMVffR1ZJk2Rd2YZBOZ3ITpgUDc"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        #map {
-            width: 100%;
-            height: 100vh;
+        #map { height: 500px; width: 100%; }
+        #address { margin-top: 10px; font-size: 17px; font-weight: 500; display: flex; align-items: center; }
+        #address i {
+            margin-right: 8px;
+            color: #e74c3c;
+            font-size: 17px; /* Đặt kích thước icon bằng với font-size của text */
+            line-height: 17px; /* Đảm bảo chiều cao dòng của icon khớp với text */
+            vertical-align: middle; /* Căn chỉnh dọc giữa */
         }
-        #location-info {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
-            font-size: 16px;
-            font-weight: bold;
-            z-index: 1000;
-            max-width: 500px;
-            text-align: center;
-        }
-        .marker {
-            width: 32px;
-            height: 32px;
-            background-image: url('location.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            position: relative;
-            z-index: 10;
-        }
-        .marker::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(0, 150, 255, 0.5);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 1.5s infinite ease-out;
-            z-index: -1;
-        }
-        @keyframes pulse {
-            0% {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(3);
-                opacity: 0;
-            }
-        }
+        #status-info { margin-top: 10px; font-size: 17px; font-weight: bold; display: flex; align-items: center; }
+        #status-info i { margin-right: 8px; color: #2c3e50; }
     </style>
+    <script>
+        let map, marker;
+
+        function initMap() {
+            const location = { lat: 16.076868, lng: 108.213356 }; // Tọa độ tại Đà Nẵng
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 18,
+                center: location
+            });
+            marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+            // Gọi OpenCage API để lấy địa chỉ khởi tạo
+            GetToaDoChiTiet(location.lng, location.lat);
+        }
+
+        function updateMapPosition(longitude, latitude) {
+            const newPosition = { lat: latitude, lng: longitude };
+            marker.setPosition(newPosition);
+            map.setCenter(newPosition);
+        }
+
+        function GetToaDoChiTiet(longitude, latitude) {
+            const apiKey = '94fc2b942c1a41b48def363d57e5e1a2';
+            const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}&language=vi&pretty=1`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        const address = data.results[0].formatted;
+                        document.getElementById('address').innerHTML = '<i class="fas fa-location-dot"></i> Địa chỉ: ' + address;
+                    } else {
+                        document.getElementById('address').innerHTML = '<i class="fas fa-location-dot"></i> Không tìm thấy địa chỉ';
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi khi gọi OpenCage API:', error);
+                    document.getElementById('address').innerHTML = '<i class="fas fa-location-dot"></i> Lỗi khi lấy địa chỉ';
+                });
+        }
+    </script>
 </head>
-<body>
-<div id="location-info">Đang tải thông tin...</div>
+<body onload="initMap()">
 <div id="map"></div>
-<script>
-    let isZooming = false;
-    // Tạo bản đồ OpenLayers
-    const mapView = new ol.View({
-        center: ol.proj.fromLonLat([108.213356, 16.076868]),
-        zoom: 18,
-    });
+<div id="address" style="margin-top:15px; font-size:17px; font-weight:500; display:flex;align-items: start;">
 
-    const map = new ol.Map({
-        target: 'map',
-        layers: [
-            new ol.layer.Tile({
-                source: new ol.source.OSM(),
-            }),
-        ],
-        view: mapView,
-    });
-
-    // Tạo overlay cho marker với hiệu ứng phát sóng
-    const positionElement = document.createElement('div');
-    positionElement.className = 'marker';
-
-    const positionOverlay = new ol.Overlay({
-        element: positionElement,
-        positioning: 'center-center',
-    });
-
-    map.addOverlay(positionOverlay);
-
-    // Hàm lấy thông tin địa chỉ từ tọa độ
-  function GetToaDoChiTiet(longitude, latitude) {
-    const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const locationInfo = document.getElementById('location-info');
-            if (data && data.address) {
-                const address = data.address;
-                const displayname = data.display_name || "";
-                const houseNumber = address.house_number || "";
-                const amenity = address.amenity || "";
-                const road = address.road || "Đường không xác định";
-                const suburb = address.suburb || "";
-                const city = address.city || address.town || address.village || "Thành phố không xác định";
-                const state = address.state || "";
-                const country = address.country || "Quốc gia không xác định";
-
-                locationInfo.textContent = `Địa chỉ: ${houseNumber} ${amenity ? '(' + amenity + ')' : ''} ${road}, ${suburb}, ${city}, ${state}, ${country}`;
-            } else {
-                locationInfo.textContent = "Không tìm thấy địa chỉ. Vui lòng thử lại.";
-            }
-        })
-        .catch(error => {
-            console.error("Lỗi khi lấy thông tin địa chỉ:", error);
-            const locationInfo = document.getElementById('location-info');
-
-        });
-}
-
-
-    // Hàm cập nhật vị trí và thông tin
-    function updateMapPosition(longitude, latitude) {
-        if (isZooming) return;
-        GetToaDoChiTiet(longitude, latitude);
-        const newCenter = ol.proj.fromLonLat([parseFloat(longitude), parseFloat(latitude)]);
-        mapView.setCenter(newCenter);
-        mapView.setZoom(18);
-        positionOverlay.setPosition(newCenter);
-    }
-
-    // Hàm debounce để tránh gọi updateMapPosition quá nhiều lần
-    function debounce(func, delay) {
-        let timeout;
-        return function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                func.apply(this, arguments);
-            }, delay);
-        };
-    }
-
-    // Lắng nghe sự kiện zoom
-    mapView.on('change:resolution', debounce(function () {
-        isZooming = true;
-
-        // Sau khi zoom xong (200ms trễ), đặt lại trạng thái
-        clearTimeout(mapView.zoomTimeout);
-        mapView.zoomTimeout = setTimeout(() => {
-            isZooming = false;
-        }, 200);
-    }, 200));
-
-</script>
+    Đang tải địa chỉ...</div>
+<div id="status-info" style="margin-top:10px; font-size:17px; font-weight: bold;">
+    Trạng thái: Chưa xác định
+</div>
 </body>
 </html>
