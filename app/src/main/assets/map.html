@@ -39,6 +39,7 @@
             const newPosition = { lat: latitude, lng: longitude };
             marker.setPosition(newPosition);
             map.setCenter(newPosition);
+            GetToaDoChiTiet(longitude, latitude);
         }
 
         function GetToaDoChiTiet(longitude, latitude) {

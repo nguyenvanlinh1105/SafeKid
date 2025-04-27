@@ -30,12 +30,13 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 public class login extends AppCompatActivity {
 
     private EditText edit_mail, edit_password;
-    private TextView btnLogin_TK, btnDangKiFormLogin;
+    private TextView btnLogin_TK, btnDangKiFormLogin,btn_QuenMatKhau;
     private CheckBox cb_nho_mat_khau_login;
     private SharedPreferences sharedPreferences;
     private FirebaseAuth mAuth;
     private FunctionUtils functionUtils;
     private ImageView btn_back;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class login extends AppCompatActivity {
         edit_password = findViewById(R.id.edtPassword_login);
         btn_back = findViewById(R.id.btn_back);
         btnLogin_TK = findViewById(R.id.btn_Login_TK);
+        btn_QuenMatKhau = findViewById(R.id.btn_QuenMatKhau);
         cb_nho_mat_khau_login = findViewById(R.id.cb_nho_mat_khau_login);
         btnDangKiFormLogin = findViewById(R.id.btnDangKi_formLogin);
 
@@ -83,6 +85,33 @@ public class login extends AppCompatActivity {
             Intent formDangKi = new Intent(login.this, Register.class);
             startActivity(formDangKi);
             finish();
+        });
+        // xử lí lấy lại mật khẩu
+        btn_QuenMatKhau.setOnClickListener(view -> {
+            String email = edit_mail.getText().toString().trim();
+            if (email.isEmpty()) {
+                Toast.makeText(login.this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(login.this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(login.this, "Email khôi phục mật khẩu đã được gửi!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Exception exception = task.getException();
+                            if (exception instanceof FirebaseAuthInvalidUserException) {
+                                Toast.makeText(login.this, "Tài khoản không tồn tại", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(login.this, "Lỗi: " + exception.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
         });
 
         // xu li dang nhap
