@@ -1,75 +1,238 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f1f5f9">
     <title>Simple Map with OpenCage Geocoding</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLiQTQyMVffR1ZJk2Rd2YZBOZ3ITpgUDc"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        #map { height: 500px; width: 100%; }
-        #address { margin-top: 10px; font-size: 17px; font-weight: 500; display: flex; align-items: center; }
-        #address i {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f5f9;
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        #map:hover {
+            transform: scale(1.02);
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .info-container {
+            background: linear-gradient(135deg, #ffffff, #e0f2fe);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 180px;
+            transition: transform 0.2s ease;
+        }
+
+        .info-container:active {
+            transform: scale(0.98);
+        }
+
+        .info-container h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-container .info-item {
+            font-size: 15px;
+            color: #4b5563;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-container .info-item i {
             margin-right: 8px;
             color: #e74c3c;
-            font-size: 17px; /* Đặt kích thước icon bằng với font-size của text */
-            line-height: 17px; /* Đảm bảo chiều cao dòng của icon khớp với text */
-            vertical-align: middle; /* Căn chỉnh dọc giữa */
         }
-        #status-info { margin-top: 10px; font-size: 17px; font-weight: bold; display: flex; align-items: center; }
-        #status-info i { margin-right: 8px; color: #2c3e50; }
+
+        .info-container .info-item.status i {
+            color: #3498db;
+        }
+
+        .info-container .info-item.time i {
+            color: #3498db;
+        }
+
+        @media screen and (max-width: 600px) {
+            #map {
+                height: 450px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .info-container {
+                padding: 15px;
+                min-height: 150px;
+            }
+
+            .info-container h2 {
+                font-size: 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .info-container .info-item {
+                font-size: 16px;
+            }
+
+            .info-container .info-item i {
+                font-size: 18px;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .container {
+                padding: 10px;
+            }
+
+            .info-container {
+                padding: 12px;
+            }
+
+            .info-container h2 {
+                font-size: 18px;
+            }
+
+            .info-container .info-item {
+                font-size: 12px;
+            }
+
+            .info-container .info-item i {
+                font-size: 14px;
+            }
+        }
     </style>
-    <script>
-        let map, marker;
-
-        function initMap() {
-            const location = { lat: 16.076868, lng: 108.213356 }; // Tọa độ tại Đà Nẵng
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 18,
-                center: location
-            });
-            marker = new google.maps.Marker({
-                position: location,
-                map: map
-            });
-
-            // Gọi OpenCage API để lấy địa chỉ khởi tạo
-            GetToaDoChiTiet(location.lng, location.lat);
-        }
-
-        function updateMapPosition(longitude, latitude) {
-            const newPosition = { lat: latitude, lng: longitude };
-            marker.setPosition(newPosition);
-            map.setCenter(newPosition);
-            GetToaDoChiTiet(longitude, latitude);
-        }
-
-        function GetToaDoChiTiet(longitude, latitude) {
-            const apiKey = '94fc2b942c1a41b48def363d57e5e1a2';
-            const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}&language=vi&pretty=1`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.results && data.results.length > 0) {
-                        const address = data.results[0].formatted;
-                        document.getElementById('address').innerHTML = '<i class="fas fa-location-dot"></i> Địa chỉ: ' + address;
-                    } else {
-                        document.getElementById('address').innerHTML = '<i class="fas fa-location-dot"></i> Không tìm thấy địa chỉ';
-                    }
-                })
-                .catch(error => {
-                    console.error('Lỗi khi gọi OpenCage API:', error);
-                    document.getElementById('address').innerHTML = '<i class="fas fa-location-dot"></i> Lỗi khi lấy địa chỉ';
-                });
-        }
-    </script>
 </head>
 <body onload="initMap()">
-<div id="map"></div>
-<div id="address" style="margin-top:15px; font-size:17px; font-weight:500; display:flex;align-items: start;">
+<div class="container">
+    <div id="map"></div>
 
-    Đang tải địa chỉ...</div>
-<div id="status-info" style="margin-top:10px; font-size:17px; font-weight: bold;">
-    Trạng thái: Chưa xác định
+    <div class="info-container">
+        <h2>Thông tin xe
+            <span id="current-time"></span>
+        </h2>
+        <div class="info-item" id="address-info">
+            <i class="fas fa-location-dot"></i> Đang tải địa chỉ...
+        </div>
+        <div class="info-item status" id="status-info">
+            <i class="fas fa-bus"></i> Trạng thái: Đang tải...
+        </div>
+        <div class="info-item time" id="stop-time-info">
+            <i class="fas fa-clock"></i> Thời gian dừng lại: Chưa xác định
+        </div>
+    </div>
 </div>
+
+<script>
+    let map, marker;
+    let lastLongitude = 16.076868;
+    let lastLatitude = 108.213356;
+
+    function initMap() {
+        const location = { lat: 16.076868, lng: 108.213356 }; // Tọa độ tại Đà Nẵng
+        const isMobile = window.innerWidth <= 600;
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: isMobile ? 17 : 18,
+            center: location
+        });
+        marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+
+        // Cập nhật thời gian thực
+        updateTime();
+        setInterval(updateTime, 60000); // Cập nhật mỗi phút
+
+        // Kiểm tra xem có chạy trong WebView không
+        if (typeof Android === 'undefined') {
+            // Nếu không chạy trong WebView, gọi API để lấy địa chỉ khởi tạo
+            GetToaDoChiTiet(location.lng, location.lat);
+        }
+    }
+
+    function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleString('vi-VN', {
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'Asia/Ho_Chi_Minh',
+            hour12: true
+        }).replace(' ', '') + ', ' + now.toLocaleString('vi-VN', {
+            weekday: 'long',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            timeZone: 'Asia/Ho_Chi_Minh'
+        });
+        document.getElementById('current-time').textContent = timeString;
+    }
+
+    function updateMapPosition(longitude, latitude) {
+        const newPosition = { lat: latitude, lng: longitude };
+        marker.setPosition(newPosition);
+        map.setCenter(newPosition);
+        lastLongitude = longitude;
+        lastLatitude = latitude;
+        GetToaDoChiTiet(longitude, latitude);
+    }
+
+    function GetToaDoChiTiet(longitude, latitude) {
+        const apiKey = '94fc2b942c1a41b48def363d57e5e1a2';
+        const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}&language=vi&pretty=1`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.results && data.results.length > 0) {
+                    const address = data.results[0].formatted;
+                    document.getElementById('address-info').innerHTML = `<i class="fas fa-location-dot"></i> Địa chỉ: ${address}`;
+                    // Gửi địa chỉ về Android để lưu cache
+                    if (typeof Android !== 'undefined' && Android.updateAddress) {
+                        Android.updateAddress(address);
+                    }
+                } else {
+                    document.getElementById('address-info').innerHTML = '<i class="fas fa-location-dot"></i> Không tìm thấy địa chỉ';
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi khi gọi OpenCage API:', error);
+                document.getElementById('address-info').innerHTML = '<i class="fas fa-location-dot"></i> Lỗi khi lấy địa chỉ';
+            });
+    }
+
+    function updateStatus(status) {
+        document.getElementById('status-info').innerHTML = `<i class="fas fa-bus"></i> Trạng thái: ${status}`;
+    }
+
+    function updateStopTime(time) {
+        document.getElementById('stop-time-info').innerHTML = `<i class="fas fa-clock"></i> Thời gian dừng lại: ${time}`;
+    }
+</script>
 </body>
 </html>

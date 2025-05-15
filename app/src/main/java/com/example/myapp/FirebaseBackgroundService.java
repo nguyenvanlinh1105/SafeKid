@@ -18,23 +18,25 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseBackgroundService extends Service {
-    private DatabaseReference heartRateRef, temperatureRef;
+    private DatabaseReference heartRateRef, forgotStatusRef;
     private static final String CHANNEL_ID = "FirebaseServiceChannel";
+    private boolean listenersRegistered = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
         startForeground(1, createNotification());
-
         Log.d("FirebaseService", "Service started...");
         startFirebaseListeners();
     }
 
     private void startFirebaseListeners() {
+        if (listenersRegistered) return;
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         heartRateRef = database.getReference("NhipTim");
-        temperatureRef = database.getReference("NhietDo");
+        forgotStatusRef = database.getReference("forgot_status");
 
         heartRateRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -49,39 +51,43 @@ public class FirebaseBackgroundService extends Service {
                         triggerAlarm("Nhịp tim nguy hiểm: " + heartRate + " bpm");
                     }
                 } catch (NumberFormatException e) {
-                    Log.e("FirebaseService", "Lỗi đọc nhịp tim");
+                    Log.e("FirebaseService", "Lỗi đọc nhịp tim", e);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {}
+            public void onCancelled(DatabaseError error) {
+                Log.e("FirebaseService", "Firebase error: " + error.getMessage());
+            }
         });
 
-        temperatureRef.addValueEventListener(new ValueEventListener() {
+        forgotStatusRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (!snapshot.exists()) return;
-                String tempStr = snapshot.getValue(String.class);
-                if (tempStr == null) return;
-
-                try {
-                    double temp = Double.parseDouble(tempStr);
-                    if (temp < 20 || temp > 30) {
-                        triggerAlarm("Nhiệt độ nguy hiểm: " + temp + "°C");
-                    }
-                } catch (NumberFormatException e) {
-                    Log.e("FirebaseService", "Lỗi đọc nhiệt độ");
+                Long forgotStatus = snapshot.getValue(Long.class);
+                if (forgotStatus != null && forgotStatus == 1L) {
+                    triggerWarning();
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {}
+            public void onCancelled(DatabaseError error) {
+                Log.e("FirebaseService", "Firebase error: " + error.getMessage());
+            }
         });
+
+        listenersRegistered = true;
     }
 
     private void triggerAlarm(String message) {
         Intent intent = new Intent(this, AlarmService.class);
         intent.putExtra("ALARM_MESSAGE", message);
+        startService(intent);
+    }
+
+    private void triggerWarning() {
+        Intent intent = new Intent(this, WarningService.class);
         startService(intent);
     }
 
@@ -100,10 +106,9 @@ public class FirebaseBackgroundService extends Service {
     }
 
     private Notification createNotification() {
-        Log.d("LINH","có chạy nền hông");
         return new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Ứng dụng đang chạy nền")
-                .setContentText("Theo dõi dữ liệu từ Firebase...")
+                .setContentText("Đang theo dõi dữ liệu từ Firebase...")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .build();
     }
@@ -115,13 +120,7 @@ public class FirebaseBackgroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        createNotificationChannel(); // Tạo channel cho thông báo foreground
-        startForeground(1, createNotification()); // Chạy foreground service với thông báo
-
         Log.d("FirebaseService", "Service đang chạy foreground...");
-
         return START_STICKY;
     }
-
-
 }

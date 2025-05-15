@@ -5,7 +5,6 @@ import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,9 +16,11 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,12 +28,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class frag_dashboard extends Fragment {
-    private TextView heartRateText, progressValueNhietDo, textwarningNhietDo,textwarningHeart;
-    private LinearLayout pieNhietDo;
-    private DatabaseReference heartRateRef, temperatureRef;
+    private TextView heartRateText, text_warning_forgot, textwarningforgot_status, textwarningHeart;
+    private LinearLayout pieForgot;
+    private DatabaseReference heartRateRef, forgot_status;
     private boolean isAlarmOn = false;
+    private boolean isWarningOn = false;
     private View circleView;
-    private ImageView icontem;
+    private ImageView image_forgot;
 
     public frag_dashboard() {}
 
@@ -40,18 +42,21 @@ public class frag_dashboard extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_frag_dashboard, container, false);
 
-        // mapp view
+        // Map view
         heartRateText = rootView.findViewById(R.id.heartRateText);
-        progressValueNhietDo = rootView.findViewById(R.id.progressValueNhietDo);
-        textwarningNhietDo = rootView.findViewById(R.id.textwarningNhietDo);
-        pieNhietDo = rootView.findViewById(R.id.pieNhietdo);
+        text_warning_forgot = rootView.findViewById(R.id.text_warning_forgot);
+        textwarningforgot_status = rootView.findViewById(R.id.textwarningforgot_status);
+        pieForgot = rootView.findViewById(R.id.pieForgot);
         textwarningHeart = rootView.findViewById(R.id.heartRateUnit);
         ImageView heartView = rootView.findViewById(R.id.heartImage);
-        icontem = rootView.findViewById(R.id.icontem);
-        // kêt nối fire csdl
+        image_forgot = rootView.findViewById(R.id.image_forgot);
+
+        // Firebase reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         heartRateRef = database.getReference("NhipTim");
-        temperatureRef = database.getReference("NhietDo");
+        forgot_status = database.getReference("forgot_status");
+
+        // Heart animation
         ObjectAnimator scaleAnimator = ObjectAnimator.ofPropertyValuesHolder(
                 heartView,
                 PropertyValuesHolder.ofFloat("scaleX", 1f, 1.2f, 1f),
@@ -60,6 +65,8 @@ public class frag_dashboard extends Fragment {
         scaleAnimator.setDuration(1000);
         scaleAnimator.setRepeatCount(ObjectAnimator.INFINITE);
         scaleAnimator.start();
+
+        // Circle animation
         circleView = rootView.findViewById(R.id.circularBorder);
         ObjectAnimator circleAnimator = ObjectAnimator.ofPropertyValuesHolder(
                 circleView,
@@ -70,6 +77,7 @@ public class frag_dashboard extends Fragment {
         circleAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         circleAnimator.setRepeatCount(ObjectAnimator.INFINITE);
         circleAnimator.start();
+
         startFirebaseListeners();
         return rootView;
     }
@@ -84,8 +92,6 @@ public class frag_dashboard extends Fragment {
 
                 try {
                     int heartRate = heartRateStr.intValue();
-
-
                     heartRateText.setText(heartRate + " bpm");
                     boolean isDangerous = heartRate < 60 || heartRate > 100;
 
@@ -113,62 +119,48 @@ public class frag_dashboard extends Fragment {
             }
         });
 
-        temperatureRef.addValueEventListener(new ValueEventListener() {
+        forgot_status.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) return;
-                Double tempStr = snapshot.getValue(Double.class);
-                if (tempStr == null) return;
+                Long forgotStatusValue = snapshot.getValue(Long.class);
+                if (forgotStatusValue == null) return;
+                boolean forgotStatus = (forgotStatusValue == 1);
 
-                try {
-                    double tempValue = tempStr.intValue();
-                    // cần check xem nhiệt độ làm tròn là double hay int
-                    progressValueNhietDo.setText(tempValue + "°C");
-                    progressValueNhietDo.setTextColor(Color.WHITE);
-                    boolean isDangerous = tempValue < 20 || tempValue > 30;
+                GradientDrawable drawable = new GradientDrawable();
+                drawable.setCornerRadius(20);
+                drawable.setShape(GradientDrawable.RECTANGLE);
 
-                    // Tạo GradientDrawable không có viền
-                    GradientDrawable drawable = new GradientDrawable();
-                    drawable.setCornerRadius(20);
-                    drawable.setShape(GradientDrawable.RECTANGLE);
+                if (forgotStatus) {
+                    drawable.setColor(Color.RED);
+                    pieForgot.setBackground(drawable);
+                    triggerWarning("Phát hiện bỏ quên trẻ trên xe");
+                    image_forgot.setColorFilter(Color.WHITE);
+                    textwarningforgot_status.setText("Phát hiện bỏ quên trẻ trên xe");
+                    text_warning_forgot.setTextColor(Color.WHITE);
+                    textwarningforgot_status.setTextColor(Color.WHITE);
 
-                    if (isDangerous) {
-                        drawable.setColor(Color.RED);
-                    } else {
-                        drawable.setColor(Color.rgb(0, 255, 156));
-                    }
-
-                    pieNhietDo.setBackground(drawable);
-
-                    if (isDangerous) {
-                        triggerAlarm("Nhiệt độ bất thường: " + tempValue + "°C");
-                        textwarningNhietDo.setText("Nhiệt độ ở mức nguy hiểm");
-                        textwarningNhietDo.setTextColor(Color.WHITE);
-                    } else {
-                        textwarningNhietDo.setText("Nhiệt độ an toàn");
-                        progressValueNhietDo.setTextColor(Color.BLACK);
-                        textwarningNhietDo.setTextColor(Color.BLACK);
-                       // updateAlarmState(false);
-                    }
-                } catch (NumberFormatException e) {
-                    progressValueNhietDo.setText("Dữ liệu lỗi");
+                } else {
+                    drawable.setColor(Color.rgb(0, 255, 156));
+                    pieForgot.setBackground(drawable);
+                    textwarningforgot_status.setText("An toàn");
+                    image_forgot.setColorFilter(Color.BLACK);
+                    text_warning_forgot.setTextColor(Color.BLACK);
+                    textwarningforgot_status.setTextColor(Color.BLACK);
+                    updateWarningState(false);
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                progressValueNhietDo.setText("Lỗi: " + error.getMessage());
+                textwarningforgot_status.setText("Lỗi: " + error.getMessage());
             }
         });
     }
 
-    private void updatePieStyle(boolean isDangerous) {
 
-    }
 
     private void triggerAlarm(String message) {
-        // showAlert("Cảnh báo!", message);
         updateAlarmState(true);
     }
 
@@ -203,14 +195,39 @@ public class frag_dashboard extends Fragment {
         context.stopService(intent);
     }
 
-    private void showAlert(String title, String message) {
-        if (getContext() == null) return;
-        new AlertDialog.Builder(requireContext())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
-                .setCancelable(false)
-                .show();
+    private void triggerWarning(String message) {
+        updateWarningState(true);
+    }
+
+    private void updateWarningState(boolean shouldWarn) {
+        if (shouldWarn == isWarningOn) return;
+        isWarningOn = shouldWarn;
+        if (shouldWarn) {
+            startWarningService();
+        } else {
+            stopWarningService();
+        }
+    }
+
+    private void startWarningService() {
+        Context context = getContext();
+        if (context == null) return;
+
+        if (!Settings.canDrawOverlays(context)) {
+            requestOverlayPermission();
+            return;
+        }
+
+        Intent intent = new Intent(context, WarningService.class);
+        context.startService(intent);
+    }
+
+    private void stopWarningService() {
+        Context context = getContext();
+        if (context == null) return;
+
+        Intent intent = new Intent(context, WarningService.class);
+        context.stopService(intent);
     }
 
     private void requestOverlayPermission() {

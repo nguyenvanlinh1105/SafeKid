@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/popup_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:id="@+id/popup_layout"
+    android:padding="20dp">
+
+    <!-- Icon cảnh báo -->
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/icon_circle_background"
+        android:padding="10dp"
+        android:src="@drawable/bell" />
+
+    <!-- Tiêu đề cảnh báo -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Cảnh báo nguy hiểm!"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Nội dung cảnh báo -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:text="Phát hiện bỏ quên trẻ trên xe"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="16sp" />
+
+    <!-- Nút bấm -->
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_background"
+        android:padding="10dp"
+        android:text="Kiểm tra ngay"
+        android:textColor="@color/primary_dark"
+        android:textStyle="bold" />
+
+</LinearLayout>

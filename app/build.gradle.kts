@@ -56,4 +56,12 @@ dependencies {
 
     //dtaaabse
     implementation ("com.google.firebase:firebase-database:20.3.2") // phiên bản mới nhất
+
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.firebase:firebase-database:20.3.0")
+
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0") // Use the latest version
+
+    implementation ("com.airbnb.android:lottie:6.1.0")
+
 }

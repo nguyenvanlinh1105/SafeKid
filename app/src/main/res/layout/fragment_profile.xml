@@ -5,193 +5,417 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="NHÓM PHÁT TRIỂN ỨNG DỤNG"
-            android:textAlignment="center"
-            android:textColor="#F99C32"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:foregroundGravity="center"
-            app:cardCornerRadius="500dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/bg_app" />
-        </androidx.cardview.widget.CardView>
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- Header Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:letterSpacing="0.05"
+                    android:text="NHÓM PHÁT TRIỂN ỨNG DỤNG"
+                    android:textColor="@color/orange_700"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    app:cardCornerRadius="80dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@color/light_gray">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/bg_app"
+                        android:scaleType="centerCrop"
+                        />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Teacher Advisor Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/light_blue">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="GIÁO VIÊN HƯỚNG DẪN"
+                        android:textAlignment="center"
+                        android:textColor="@color/orange_600"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginBottom="16dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            app:cardCornerRadius="40dp"
+                            app:cardElevation="4dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/profile_linh"
+                                android:scaleType="centerCrop"
+                               />
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ngô Thị Minh Hương"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:padding="8dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Giảng viên Khoa Công nghệ thông tin"
+                        android:textSize="16sp"
+                        android:textColor="@color/dark_gray"
+                        android:textAlignment="center"
+                        android:padding="8dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Team Leader Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/light_orange">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="NHÓM TRƯỞNG"
+                        android:textAlignment="center"
+                        android:textColor="@color/orange_500"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginBottom="16dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            app:cardCornerRadius="40dp"
+                            app:cardElevation="4dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/bg_app"
+                                android:scaleType="centerCrop"
+                               />
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Trần Văn Nam"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            android:textAlignment="center"
+                            android:padding="8dp"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="22115051222218"
+                            android:textSize="18sp"
+                            android:textColor="@color/dark_gray"
+                            android:textAlignment="center"
+                            android:padding="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+            <!-- Team Members Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="THÀNH VIÊN NHÓM"
+                        android:textAlignment="center"
+                        android:textColor="@color/orange_500"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <!-- Member 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            app:cardCornerRadius="30dp"
+                            app:cardElevation="2dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/profile_linh"
+                                android:scaleType="centerCrop"
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nguyễn Văn Linh"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="22115053122225"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Member 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            app:cardCornerRadius="30dp"
+                            app:cardElevation="2dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/bg_app"
+                                android:scaleType="centerCrop"
+                      />
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Lưu Văn Công"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="22115054122111"
+                                android:textSize="14sp"
+                                android:textColor="@color/dark_gray"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Member 3 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            app:cardCornerRadius="30dp"
+                            app:cardElevation="2dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/bg_app"
+                                android:scaleType="centerCrop"
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nguyễn Thế Lương"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="22115054122135"
+                                android:textSize="14sp"
+                                android:textColor="@color/dark_gray"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Member 4 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            app:cardCornerRadius="30dp"
+                            app:cardElevation="2dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/bg_app"
+                                android:scaleType="centerCrop"
+                               />
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Trần Nghiêu Luận"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="22115054122134"
+                                android:textSize="14sp"
+                                android:textColor="@color/dark_gray"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Footer Section -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="Nhóm trưởng:"
+                android:text="© 2023 Nhóm Phát triển Ứng dụng. Đã đăng ký bản quyền"
+                android:textSize="12sp"
+                android:textColor="@color/gray_600"
                 android:textAlignment="center"
-                android:textSize="23sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:text="Trần Văn Nam"
-                    android:textAlignment="center"
-                    android:textSize="19sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:text="22115051222218"
-                    android:textAlignment="center"
-                    android:textSize="19sp" />
-            </LinearLayout>
+                android:layout_marginTop="24dp"/>
         </LinearLayout>
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="Thành viên:"
-            android:textAlignment="center"
-            android:textSize="23sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Họ tên"
-                    android:textAlignment="center"
-                    android:textSize="23sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Nguyễn Văn Linh"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Lưu Văn Công"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Nguyễn Thế Lương"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Trần Nghiêu Luận"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Mã sinh viên"
-                    android:textAlignment="center"
-                    android:textSize="23sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="22115053122225"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="22115054122111"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="22115054122135"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="22115054122134"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

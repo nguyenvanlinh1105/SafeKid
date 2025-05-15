@@ -21,20 +21,15 @@ public class PopupActivity extends Activity {
 
         setContentView(R.layout.popup_alarm);
 
-        // Nút tắt popup và tắt âm thanh
+        // Nút tắt popup và dừng service
         Button btnOk = findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(v -> {
-            stopAlarmService(); // Gửi Intent để tắt âm thanh
-            finish(); // Đóng popup
+            stopAlarmService(); // Dừng service (tắt âm thanh)
+            finish();           // Đóng popup
         });
     }
 
     private void stopAlarmService() {
-        Intent intent = new Intent(this, AlarmService.class);
-        intent.setAction("STOP_ALARM");
-        startService(intent);
+        stopService(new Intent(this, AlarmService.class));
     }
-
-
-
 }

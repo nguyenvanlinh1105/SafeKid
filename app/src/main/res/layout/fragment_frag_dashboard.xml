@@ -14,8 +14,8 @@
         <!-- Phần trên: Hình trái tim và vòng tròn -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_height="434dp"
+            android:layout_marginBottom="30dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -70,56 +70,40 @@
             app:cardElevation="0dp">
 
             <LinearLayout
-                android:id="@+id/pieNhietdo"
+                android:id="@+id/pieForgot"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="209dp"
                 android:background="@drawable/card_bg"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/icontem"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icont" />
-
-                <RelativeLayout
-                    android:layout_width="180dp"
-                    android:layout_height="180dp">
-
-                    <ProgressBar
-                        android:id="@+id/circularProgressSleep"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="100"
-                        android:progressDrawable="@drawable/circular_progress" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/progressValueNhietDo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="28°C"
-                            android:textColor="@color/black"
-                            android:textSize="26sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </RelativeLayout>
+                    android:id="@+id/image_forgot"
+                    android:layout_width="307dp"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/forgoticon"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textwarningNhietDo"
+                    android:id="@+id/text_warning_forgot"
+                    android:layout_width="307dp"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="Không phát hiện nguy hiểm nào"
+                    android:textColor="#288A2C"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textwarningforgot_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:foregroundGravity="center"
                     android:text="An toàn"
                     android:textColor="#288A2C"
                     android:textSize="20sp"

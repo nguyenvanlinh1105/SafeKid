@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Background màu trắng -->
+    <solid android:color="@android:color/white" />
+
+    <!-- Bo góc 16dp -->
+    <corners android:radius="16dp" />
+
+    <!-- Shadow/elevation -->
+    <stroke
+        android:width="0.5dp"
+        android:color="#22000000" />
+
+    <!-- Hiệu ứng đổ bóng -->
+    <padding
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp" />
+
+</shape>

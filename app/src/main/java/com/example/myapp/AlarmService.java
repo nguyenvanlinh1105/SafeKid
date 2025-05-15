@@ -10,11 +10,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-
-import com.example.myapp.PopupActivity;
 
 public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
@@ -24,7 +21,7 @@ public class AlarmService extends Service {
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
-        startForeground(1, getNotification()); // Chạy foreground service
+        startForeground(1, getNotification());
         startAlarm();
         showPopup();
     }
@@ -44,11 +41,10 @@ public class AlarmService extends Service {
     }
 
     private Notification getNotification() {
-        Log.d("linh","chạy nền á");
         return new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Báo động cảnh báo nguy hiểm")
                 .setContentText("Nhấn để tắt báo động")
-                .setSmallIcon(R.drawable.bg_app) // Thêm icon vào res/drawable
+                .setSmallIcon(R.drawable.bg_app)
                 .build();
     }
 
@@ -56,20 +52,13 @@ public class AlarmService extends Service {
         AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         if (audioManager != null) {
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                    audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                    0);
+                    audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
         }
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.diadang));
+            mediaPlayer = MediaPlayer.create(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.baodong));
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
         }
-    }
-
-    private void showPopup() {
-        Intent intent = new Intent(this, PopupActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     private void stopAlarm() {
@@ -78,16 +67,19 @@ public class AlarmService extends Service {
             mediaPlayer.release();
             mediaPlayer = null;
         }
-        stopForeground(true); // Dừng foreground
-        stopSelf(); // Dừng service
+        stopForeground(true);
+        stopSelf();
+    }
+
+    private void showPopup() {
+        Intent intent = new Intent(this, PopupActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && "STOP_ALARM".equals(intent.getAction())) {
-            stopAlarm();
-        }
-        return START_STICKY; // Giữ service chạy nền
+        return START_STICKY;
     }
 
     @Override
