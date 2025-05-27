@@ -4,7 +4,7 @@
             <size
                 android:width="240dp"
                 android:height="240dp" />
-            <solid android:color="#73EB6B" />
+            <solid android:color="#B9FFB4" />
             <corners android:radius="120dp" />
         </shape>
     </item>
@@ -16,7 +16,7 @@
             <gradient
                 android:type="radial"
                 android:gradientRadius="150dp"
-                android:startColor="#60B85A"
+                android:startColor="#70EF67"
                 android:endColor="#00FF4081"
                 android:centerX="0.5"
                 android:centerY="0.5" />

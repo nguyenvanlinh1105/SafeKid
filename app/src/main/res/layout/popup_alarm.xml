@@ -1,52 +1,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/popup_background"
+    android:background="@drawable/popup_background_modern2"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="24dp"
+    android:elevation="16dp">
 
-    <!-- Icon cảnh báo -->
+    <!-- Icon cảnh báo hiện đại với hiệu ứng nền động -->
     <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/icon_circle_background"
-        android:padding="10dp"
-        android:src="@drawable/bell" />
+        android:id="@+id/img_warning"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_round_warning_amber_48"
+        android:padding="12dp" />
 
     <!-- Tiêu đề cảnh báo -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Cảnh báo nguy hiểm!"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2" />
 
     <!-- Nội dung cảnh báo -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
         android:gravity="center"
-        android:paddingTop="10dp"
-        android:text="Phát hiện nhịp tim của trẻ không an toàn."
-        android:textColor="@android:color/holo_red_light"
+        android:lineSpacingExtra="4sp"
+        android:text="Phát hiện nhịp tim của trẻ không an toàn!"
+        android:textColor="@color/white"
         android:textSize="16sp" />
 
-    <!-- Nút bấm -->
     <Button
         android:id="@+id/btn_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button_background"
-        android:padding="10dp"
-        android:text="Kiểm tra ngay"
-        android:textColor="@color/primary_dark"
-        android:textStyle="bold" />
+        android:layout_width="170dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/white"
+        android:text="KIỂM TRA NGAY"
+        android:textAllCaps="true"
+        android:textColor="@color/red_primary"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:drawableEnd="@drawable/ic_round_arrow_forward_24"
+        android:drawablePadding="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
+
 
 </LinearLayout>

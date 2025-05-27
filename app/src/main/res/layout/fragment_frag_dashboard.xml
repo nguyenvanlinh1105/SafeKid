@@ -45,8 +45,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="76"
-                android:textColor="#2AB14B"
-                android:textSize="48sp"
+                android:textColor="#3F51B5"
+                android:textSize="52sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nhịp tim an toàn"
-                android:textColor="#30683D"
+                android:textColor="#E91E63"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -73,19 +73,33 @@
                 android:id="@+id/pieForgot"
                 android:layout_width="match_parent"
                 android:layout_height="209dp"
-                android:background="@drawable/card_bg"
+                android:background="@drawable/circular_border"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <ImageView
-                    android:id="@+id/image_forgot"
-                    android:layout_width="307dp"
-                    android:layout_height="43dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/forgoticon"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:id="@+id/image_boy"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
+                        android:src="@drawable/boy"
+                        android:scaleType="fitCenter"
+                        android:layout_marginEnd="8dp" />
+
+                    <ImageView
+                        android:id="@+id/image_girl"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
+                        android:src="@drawable/girl"
+                        android:scaleType="fitCenter" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/text_warning_forgot"
@@ -94,7 +108,7 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="Không phát hiện nguy hiểm nào"
-                    android:textColor="#288A2C"
+                    android:textColor="#009688"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -105,7 +119,7 @@
                     android:layout_marginTop="8dp"
                     android:foregroundGravity="center"
                     android:text="An toàn"
-                    android:textColor="#288A2C"
+                    android:textColor="#3F51B5"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>

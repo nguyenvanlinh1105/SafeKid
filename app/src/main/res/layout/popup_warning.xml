@@ -2,7 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/popup_background"
+    android:background="@drawable/popup2_background"
     android:gravity="center"
     android:orientation="vertical"
     android:id="@+id/popup_layout"
@@ -13,9 +13,9 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/icon_circle_background"
-        android:padding="10dp"
-        android:src="@drawable/bell" />
+        android:background="@drawable/br_circle_pink_white"
+        android:padding="14dp"
+        android:src="@drawable/ic_warning_amber_24"/>
 
     <!-- Tiêu đề cảnh báo -->
     <TextView
@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Cảnh báo nguy hiểm!"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="22sp"
+        android:textColor="@color/red_light"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <!-- Nội dung cảnh báo -->
@@ -34,9 +34,9 @@
         android:layout_marginBottom="15dp"
         android:gravity="center"
         android:paddingTop="10dp"
-        android:text="Phát hiện bỏ quên trẻ trên xe"
-        android:textColor="@android:color/holo_red_light"
-        android:textSize="16sp" />
+        android:text="Phát hiện trẻ bị bỏ quên trong xe"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
 
     <!-- Nút bấm -->
     <Button
@@ -44,10 +44,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/button_background"
-        android:padding="10dp"
-        android:text="Kiểm tra ngay"
-        android:textColor="@color/primary_dark"
+        android:backgroundTint="#FF4584"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="KIỂM TRA NGAY"
+        android:drawableEnd="@drawable/ic_round_arrow_forward_white"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
-
 </LinearLayout>

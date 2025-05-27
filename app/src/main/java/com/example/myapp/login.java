@@ -13,19 +13,21 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.myapp.Util.FunctionUtils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class login extends AppCompatActivity {
 
@@ -81,37 +83,23 @@ public class login extends AppCompatActivity {
         });
 
         // xu li dang ki
-        btnDangKiFormLogin.setOnClickListener(view -> {
-            Intent formDangKi = new Intent(login.this, Register.class);
-            startActivity(formDangKi);
-            finish();
-        });
+//        btnDangKiFormLogin.setOnClickListener(view -> {
+//            Intent formDangKi = new Intent(login.this, Register.class);
+//            startActivity(formDangKi);
+//            finish();
+//        });
         // xử lí lấy lại mật khẩu
         btn_QuenMatKhau.setOnClickListener(view -> {
-            String email = edit_mail.getText().toString().trim();
-            if (email.isEmpty()) {
-                Toast.makeText(login.this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+            builder.setTitle("Quên mật khẩu?");
+            builder.setMessage("Nếu bạn quên mật khẩu, vui lòng liên hệ với admin qua email:\n22115053122225@sv.ute.udn.vn");
 
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(login.this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                dialog.dismiss();
+            });
 
-            mAuth.sendPasswordResetEmail(email)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(login.this, "Email khôi phục mật khẩu đã được gửi!", Toast.LENGTH_LONG).show();
-                        } else {
-                            Exception exception = task.getException();
-                            if (exception instanceof FirebaseAuthInvalidUserException) {
-                                Toast.makeText(login.this, "Tài khoản không tồn tại", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(login.this, "Lỗi: " + exception.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         // xu li dang nhap
@@ -137,31 +125,59 @@ public class login extends AppCompatActivity {
                 editor.apply();
             }
 
-            signIn(email, password);
+            loginWithDatabase(email, password);
         });
     }
 
     /**
      * Hàm đăng nhập Firebase với xử lý lỗi cụ thể
      */
-    private void signIn(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                Toast.makeText(login.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(login.this, MainActivity2.class));
-                                finish();
-                            }
-                        } else {
-                            handleFirebaseAuthError(task.getException());
+    private void loginWithDatabase(String email, String password) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean found = false;
+
+                for (DataSnapshot userSnap : snapshot.getChildren()) {
+                    String userEmail = userSnap.child("email").getValue(String.class);
+                    String userPassword = userSnap.child("password").getValue(String.class);
+                    String userStatus = userSnap.child("status").getValue(String.class);
+
+                    if (userEmail != null && userEmail.equals(email)) {
+                        found = true;
+
+                        if (!password.equals(userPassword)) {
+                            Toast.makeText(login.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
+                            return;
                         }
+
+                        if (userStatus != null && userStatus.equalsIgnoreCase("active")) {
+                            Toast.makeText(login.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                            // Chuyển sang MainActivity2
+                            startActivity(new Intent(login.this, MainActivity2.class));
+                            finish();
+                        } else {
+                            Toast.makeText(login.this, "Tài khoản đã bị vô hiệu hóa", Toast.LENGTH_SHORT).show();
+                        }
+
+                        break;
                     }
-                });
+                }
+
+                if (!found) {
+                    Toast.makeText(login.this, "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(login.this, "Lỗi truy vấn: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
     /**
      * Xử lý lỗi Firebase cụ thể

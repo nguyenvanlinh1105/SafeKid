@@ -43,6 +43,7 @@
     <color name="text_primary">@color/gray_900</color>
     <color name="text_secondary">@color/gray_600</color>
 
+
     <color name="blue_50">#E3F2FD</color>
     <color name="blue_100">#BBDEFB</color>
     <color name="blue_200">#90CAF9</color>
@@ -54,5 +55,16 @@
     <color name="blue_800">#1565C0</color>
     <color name="blue_900">#0D47A1</color>
     <color name="light_blue">#E1F5FE</color>
+
+    <color name="red_primary">#FF4757</color>
+    <color name="red_dark">#CC2F3E</color>
+    <color name="red_light">#FF6B81</color>
+    <color name="white_alpha_80">#CCFFFFFF</color>
+    <color name="white_alpha_30">#4DFFFFFF</color>
+    <color name="white_alpha_20">#33FFFFFF</color> <!-- 20% alpha trắng -->
+
+    <color name="danger_red">#D32F2F</color>         <!-- Tiêu đề -->
+    <color name="text_gray">#555555</color>         <!-- Nội dung -->
+    <color name="warning_orange">#FFA000</color>    <!-- Icon cảnh báo -->
 
 </resources>

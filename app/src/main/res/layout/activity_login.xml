@@ -164,7 +164,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bạn chưa có tài khoản?"
+                android:text="Bạn chưa có tài khoản có thể liên hệ với admin!"
                 android:textSize="16sp" />
 
             <TextView
@@ -172,7 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="Đăng ký ngay!"
+                android:text=""
                 android:textColor="@color/primary_color"
                 android:textSize="16sp" />
         </LinearLayout>

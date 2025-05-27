@@ -94,7 +94,7 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/profile_linh"
+                                android:src="@drawable/cohuong"
                                 android:scaleType="centerCrop"
                                />
                         </androidx.cardview.widget.CardView>
@@ -112,7 +112,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Giảng viên Khoa Công nghệ thông tin"
+                        android:text="Giảng viên Khoa Điện-Điện tử"
                         android:textSize="16sp"
                         android:textColor="@color/dark_gray"
                         android:textAlignment="center"
@@ -377,7 +377,7 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/bg_app"
+                                android:src="@drawable/luan"
                                 android:scaleType="centerCrop"
                                />
                         </androidx.cardview.widget.CardView>
@@ -411,7 +411,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="© 2023 Nhóm Phát triển Ứng dụng. Đã đăng ký bản quyền"
+                android:text="© 2025 Nhóm SafeKid Phát triển Ứng dụng"
                 android:textSize="12sp"
                 android:textColor="@color/gray_600"
                 android:textAlignment="center"

@@ -49,7 +49,7 @@ public class frag_dashboard extends Fragment {
         pieForgot = rootView.findViewById(R.id.pieForgot);
         textwarningHeart = rootView.findViewById(R.id.heartRateUnit);
         ImageView heartView = rootView.findViewById(R.id.heartImage);
-        image_forgot = rootView.findViewById(R.id.image_forgot);
+//        image_forgot = rootView.findViewById(R.id.image_forgot);
 
         // Firebase reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -135,16 +135,17 @@ public class frag_dashboard extends Fragment {
                     drawable.setColor(Color.RED);
                     pieForgot.setBackground(drawable);
                     triggerWarning("Phát hiện bỏ quên trẻ trên xe");
-                    image_forgot.setColorFilter(Color.WHITE);
+                 //   image_forgot.setColorFilter(Color.WHITE);
                     textwarningforgot_status.setText("Phát hiện bỏ quên trẻ trên xe");
+                    text_warning_forgot.setText("THÔNG BÁO KHẨN CẤP!");
                     text_warning_forgot.setTextColor(Color.WHITE);
                     textwarningforgot_status.setTextColor(Color.WHITE);
 
                 } else {
-                    drawable.setColor(Color.rgb(0, 255, 156));
+                    drawable.setColor(Color.rgb(59, 247, 178));
                     pieForgot.setBackground(drawable);
-                    textwarningforgot_status.setText("An toàn");
-                    image_forgot.setColorFilter(Color.BLACK);
+                    textwarningforgot_status.setText("AN TOÀN!");
+                    text_warning_forgot.setText("KHÔNG PHÁT HIỆN NGUY HIỂM!");
                     text_warning_forgot.setTextColor(Color.BLACK);
                     textwarningforgot_status.setTextColor(Color.BLACK);
                     updateWarningState(false);
